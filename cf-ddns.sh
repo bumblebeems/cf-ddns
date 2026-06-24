@@ -156,7 +156,7 @@ code=$(printf '%s\n' "$response" | tail -n1)
 body=$(printf '%s\n' "$response" | sed '$d')
 
 # Check if the update was successful by looking for a 200 status code and a "success": true field in the response body.
-if [ "$code" = "200" ] && printf '%s\n' "$body" | grep -Eq '"success"[[:space:]]*:[[:space:]]*true'; then
+if [ "$code" = "200" ] && printf '%s\n' "$body" | grep -q '"success"[[:space:]]*:[[:space:]]*true'; then
 
     # If successful, update the cache with the new public IP and log a successful run
     printf '%s\n' "$PUBLIC_IP" > "$CACHE_FILE"
