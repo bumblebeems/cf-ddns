@@ -22,7 +22,7 @@ set -eu
 
 # -+ CONFIG +-
 
-WORKING_DIR="/home/container/cf-ddns"
+WORKING_DIR="/home/emily/cf-ddns"
 LOCK_DIR="$WORKING_DIR/cf-ddns.lock"
 CACHE_FILE="$WORKING_DIR/ip-cache.txt"
 SECRETS_FILE="$WORKING_DIR/secrets.env"
@@ -38,7 +38,7 @@ fi
 # -+ LOGGING FUNCTIONS +-
 
 log() {
-    msg="$(date '+%Y-%m-%d %H:%M:%S') $RUN_MODE $*"
+    msg="$(date '+%Y-%m-%d %H:%M:%S') ${RUN_MODE:+$RUN_MODE }$*"
 
     # Print to standard output (stdout)
     printf '%s\n' "$msg"
@@ -48,7 +48,7 @@ log() {
 }
 
 log_err() {
-    msg="$(date '+%Y-%m-%d %H:%M:%S') $RUN_MODE $*"
+    msg="$(date '+%Y-%m-%d %H:%M:%S') ${RUN_MODE:+$RUN_MODE }$*"
 
     # Direct errors explicitly to standard error stream (stderr)
     printf '%s\n' "$msg" >&2
