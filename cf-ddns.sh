@@ -60,14 +60,10 @@ trim_log() {
 
     # If the log exceeds the maximum allowed lines, trim it down to the last LOG_MAX_LINES lines
     if [ "$lines" -gt "$LOG_MAX_LINES" ]; then
-        # 1. Create the trimmed version completely safely under a temporary name
+        # Create the trimmed version completely safely under a temporary name
         tail -n "$LOG_MAX_LINES" "$LOG_FILE" > "$LOG_FILE.tmp"
-        
-        # 2. Copy the permissions/attributes from the old log to the new tmp file
-        chmod --reference="$LOG_FILE" "$LOG_FILE.tmp"
 
-        # 3. Overwrite the original log file with the trimmed version.
-        #    Using mv to do this means it should be impossible to have a partially written log file if the script is interrupted or crashes
+        # Overwrite the original log file with the trimmed version. Using mv to do this means it should be impossible to have a partially written log file if the script is interrupted or crashes
         mv "$LOG_FILE.tmp" "$LOG_FILE"
     fi
 }
