@@ -22,7 +22,7 @@ set -eu
 
 # -+ CONFIG +-
 
-WORKING_DIR="/home/emily/Git/cf-ddns"
+WORKING_DIR="/home/container/cf-ddns"
 LOCK_DIR="$WORKING_DIR/cf-ddns.lock"
 CACHE_FILE="$WORKING_DIR/ip-cache.txt"
 SECRETS_FILE="$WORKING_DIR/secrets.env"
@@ -146,7 +146,11 @@ if [ "$PUBLIC_IP" = "$KNOWN_IP" ]; then
     exit 0
 fi
 
-log "IP change detected: $KNOWN_IP -> $PUBLIC_IP"
+if [ -z "$KNOWN_IP" ]; then
+    log "No cached IP found, assuming first run. Current IP: $PUBLIC_IP"
+else
+    log "IP change detected: $KNOWN_IP -> $PUBLIC_IP"
+fi
 
 # API request to update the DNS record with the new IP address
 response=$(curl -4sS --max-time 15 -X PATCH \
