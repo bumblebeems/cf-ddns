@@ -143,6 +143,7 @@ KNOWN_IP=""
 [ -f "$CACHE_FILE" ] && KNOWN_IP=$(cat "$CACHE_FILE" 2>/dev/null || true)
 
 if [ "$PUBLIC_IP" = "$KNOWN_IP" ]; then
+    log "No IP change detected, exiting."
     exit 0
 fi
 
