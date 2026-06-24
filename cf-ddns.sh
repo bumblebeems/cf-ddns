@@ -72,9 +72,20 @@ trim_log() {
 
 mkdir -p "$WORKING_DIR"
 
-if ! mkdir "$LOCK_DIR" 2>/dev/null; then
-    printf 'Error: Another instance of this script is already running.\n' >&2
-    exit 1
+# Try to create a lock directory and save any error output to a variable. If statement is executed if this fails.
+if ! mklockdir_output=$(mkdir "$LOCK_DIR" 2>&1); then
+    case "$mklockdir_output" in
+    # If it already exists, it's likely due to another instance of the script running already.
+    *'File exists'*)
+        printf 'Error: Lock directory already exists. Another instance of this script is likely running already.\n' >&2
+        exit 1
+        ;;
+    *)
+    # Any other errors are not my problem lol (well they are but they're not something I can give much more context on)
+        printf 'Error: Failed to create lock directory: %s\n' "$mklockdir_output" >&2
+        exit 1
+        ;;
+    esac
 fi
 
 trap 'rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT INT TERM
@@ -88,7 +99,7 @@ if [ -f "$SECRETS_FILE" ]; then
     . "$SECRETS_FILE"
 else
     # Fail and exit if the file doesn't exist
-    log_err "Secrets file missing at $SECRETS_FILE. A template can be found at secrets.env.example"
+    log_err "Secrets file missing. Please cp secrets.env.example to secrets.env and fill in the required values before running again."
     exit 1
 fi
 
