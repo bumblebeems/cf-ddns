@@ -1,0 +1,5 @@
+*.tmp
+cf-ddns.lock
+ip-cache.txt
+run.log
+secrets.env
