@@ -22,10 +22,10 @@ set -eu
 
 # -+ CONFIG +-
 
-WORKING_DIR="/home/emily/cf-ddns"
+WORKING_DIR="./cf-ddns"
 LOCK_DIR="$WORKING_DIR/cf-ddns.lock"
 CACHE_FILE="$WORKING_DIR/ip-cache.txt"
-SECRETS_FILE="$WORKING_DIR/secrets.env"
+SECRETS_FILE="$WORKING_DIR/secrets.conf"
 LOG_FILE="$WORKING_DIR/run.log"
 LOG_MAX_LINES=1000
 
