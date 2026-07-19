@@ -22,7 +22,7 @@ set -eu
 
 # -+ CONFIG +-
 
-WORKING_DIR="./cf-ddns"
+WORKING_DIR="./"
 LOCK_DIR="$WORKING_DIR/cf-ddns.lock"
 CACHE_FILE="$WORKING_DIR/ip-cache.txt"
 SECRETS_FILE="$WORKING_DIR/secrets.conf"
@@ -105,7 +105,7 @@ if [ -f "$SECRETS_FILE" ]; then
     . "$SECRETS_FILE"
 else
     # Fail and exit if the file doesn't exist
-    log_err "Secrets file missing. Please cp secrets.env.example to secrets.env and fill in the required values before running again."
+    log_err "Secrets file missing. Please cp secrets.conf.example to secrets.conf and fill in the required values before running again."
     exit 1
 fi
 
